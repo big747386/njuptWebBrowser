@@ -25,8 +25,5 @@ class MyWebViewClient extends WebViewClient {
 
     public MyWebViewClient() {
         super();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            
-        }
     }
 }

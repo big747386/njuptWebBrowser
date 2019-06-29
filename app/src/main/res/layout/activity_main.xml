@@ -83,6 +83,7 @@
 
     <!-- 底部导航栏 -->
     <LinearLayout
+        android:id="@+id/nevbar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:baselineAligned="false"
@@ -127,6 +128,18 @@
 
             <ImageView
                 android:id="@+id/test"
+                style="@style/NavIcon"
+                android:contentDescription="@string/nav_page"
+                android:src="@drawable/nav_home" />
+
+        </RelativeLayout>
+
+        <!-- 保存按钮 -->
+        <RelativeLayout style="@style/NavItem">
+
+
+            <ImageView
+                android:id="@+id/save"
                 style="@style/NavIcon"
                 android:contentDescription="@string/nav_page"
                 android:src="@drawable/nav_home" />

@@ -11,4 +11,15 @@
     <string name="nav_home">主页</string>
 
     <string name="input_url">搜索或输入网址</string>
+    <string name="computer">计算机</string>
+    <string name="finaicial">金融</string>
+    <string name="manage">管理</string>
+    <string name="fullscreenoff">全屏模式OFF</string>
+    <string name="fullscrennon">全屏模式ON</string>
+    <string name="nopicoff">无图模式OFF</string>
+    <string name="nopicon">无图模式ON</string>
+    <string name="pop_exit">退出</string>
+    <string name="fav">收藏夹</string>
+    <string name="his">历史记录</string>
+    <string name="add_to_fav">添加到收藏夹</string>
 </resources>

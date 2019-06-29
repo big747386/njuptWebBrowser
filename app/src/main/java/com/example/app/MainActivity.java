@@ -1,16 +1,19 @@
 package com.example.app;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +22,14 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.SpinnerAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -41,8 +44,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private WebSettings mwebSettings;
     private TextView  mtitle;
     private Context mContext;
-    private ImageView webIcon, goBack, goForward, navSet, goHome, btnStart, navTest;
+    private ImageView webIcon, goBack, goForward, navSet, goHome, btnStart, navTest,save;
     private InputMethodManager manager;
+    private PopupWindow mPopWindow;
+    private Switch noPicSwitch;
+    /*private TextView  mMenuTv;*/
+
 
     private static final String HTTP = "http://";
     private static final String HTTPS = "https://";
@@ -74,6 +81,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         mwebSettings.setSupportZoom(true);
         mwebSettings.setBuiltInZoomControls(true);
         mwebSettings.setDisplayZoomControls(false);
+
         //开启http和https混用
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mwebSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
@@ -89,6 +97,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         mWebView.setWebChromeClient(new mWebChromeClient());
         mWebView.setWebViewClient(new mWebViewClient());
+
 
     }
 
@@ -146,6 +155,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         navSet = findViewById(R.id.navSet);
         goHome = findViewById(R.id.goHome);
         navTest = findViewById(R.id.test);
+        save = findViewById(R.id.save);
+
+        noPicSwitch = findViewById(R.id.noPicButton);
 
         // 绑定按钮点击事件
         btnStart.setOnClickListener(this);
@@ -154,6 +166,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
         navSet.setOnClickListener(this);
         goHome.setOnClickListener(this);
         navTest.setOnClickListener(this);
+        save.setOnClickListener(this);
+       /* noPicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });*/
+
 
         // 地址输入栏获取与失去焦点处理
         textUrl.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -192,6 +212,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
             }
         });
     }
+
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -238,7 +262,28 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
             // 设置
             case R.id.navSet:
-                Toast.makeText(mContext, "功能开发中", Toast.LENGTH_SHORT).show();
+               //跳出弹框
+                showPopupWindow();
+                /*Toast.makeText(mContext, "功能开发中", Toast.LENGTH_SHORT).show();*/
+                break;
+
+            //保存网页
+            case R.id.save:
+                Toast.makeText(mContext, "保存网页", Toast.LENGTH_SHORT).show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    // Get a PrintManager instance
+                    PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+
+                    // Get a print adapter instance
+                    PrintDocumentAdapter printAdapter = mWebView.createPrintDocumentAdapter("保存的网页");
+
+                    // Create a print job with name and adapter instance
+                    String jobName = getString(R.string.app_name) + " Document";
+                    printManager.print(jobName, printAdapter,
+                            new PrintAttributes.Builder().build());
+                } else {
+                    Toast.makeText(getApplicationContext(), "当前系统不支持该功能", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             // 主页
@@ -250,15 +295,64 @@ public class MainActivity extends Activity implements View.OnClickListener{
             case R.id.test:
                 jump();
                 break;
+
+            //popWindow里的选项
+            case R.id.history:{
+                Toast.makeText(this, "跳转到History", Toast.LENGTH_SHORT).show();
+                mPopWindow.dismiss();
+            }
+            break;
+
+            case R.id.favourite:{
+                jump();
+            }
+            break;
+
+            case R.id.pop_exit:{
+                Toast.makeText(this,"退出设置菜单",Toast.LENGTH_SHORT).show();
+
+                mwebSettings.setUseWideViewPort(true);
+                mwebSettings.setLoadWithOverviewMode(true);
+                /*mwebSettings.setBlockNetworkImage(true); // 设置无图模式*/
+            }
+            break;
+            case R.id.add_to_fav:{
+                Toast.makeText(this,"添加到收藏夹",Toast.LENGTH_SHORT).show();
+            }
+
             default:
         }
     }
 
+    //跳转到收藏夹
     public void jump() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, FavoriteActivity.class);
         startActivity(intent);
     }
+
+    private void showPopupWindow() {
+        View contentView = LayoutInflater.from(MainActivity.this).inflate(R.layout.pop_up_window, null);
+        mPopWindow = new PopupWindow(contentView);
+        mPopWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopWindow.setFocusable(true);//解决打开多个popwindow 并实现县级其他位置关闭弹窗
+
+
+        TextView history = contentView.findViewById(R.id.history);
+        TextView favourite = contentView.findViewById(R.id.favourite);
+        TextView exitPop = contentView.findViewById(R.id.pop_exit);
+        TextView add_to_fav = contentView.findViewById(R.id.add_to_fav);
+
+        history.setOnClickListener(this);
+        favourite.setOnClickListener(this);
+        add_to_fav.setOnClickListener(this);
+        exitPop.setOnClickListener(this);
+
+        mPopWindow.showAsDropDown(navSet,-200,-500);
+    }
+
+
     public static boolean isHttpUrl(String urls) {
         boolean isUrl;
         // 判断是否是网址的正则表达式

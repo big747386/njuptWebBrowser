@@ -33,7 +33,6 @@ public class FavoriteActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_favorite);
         dbOperator = new DBOperator(this, "browserdatabase.db",
                 null, VERSION);

@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -20,6 +19,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -41,7 +41,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private WebSettings mwebSettings;
     private TextView  mtitle;
     private Context mContext;
-    private ImageView webIcon, goBack, goForward, navSet, goHome, btnStart;
+    private ImageView webIcon, goBack, goForward, navSet, goHome, btnStart, navTest;
     private InputMethodManager manager;
 
     private static final String HTTP = "http://";
@@ -145,6 +145,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         goForward = findViewById(R.id.goForward);
         navSet = findViewById(R.id.navSet);
         goHome = findViewById(R.id.goHome);
+        navTest = findViewById(R.id.test);
 
         // 绑定按钮点击事件
         btnStart.setOnClickListener(this);
@@ -152,6 +153,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         goForward.setOnClickListener(this);
         navSet.setOnClickListener(this);
         goHome.setOnClickListener(this);
+        navTest.setOnClickListener(this);
 
         // 地址输入栏获取与失去焦点处理
         textUrl.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -244,8 +246,18 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 mWebView.loadUrl(getResources().getString(R.string.home_url));
                 break;
 
+            //测试接口
+            case R.id.test:
+                jump();
+                break;
             default:
         }
+    }
+
+    public void jump() {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, FavoriteActivity.class);
+        startActivity(intent);
     }
     public static boolean isHttpUrl(String urls) {
         boolean isUrl;

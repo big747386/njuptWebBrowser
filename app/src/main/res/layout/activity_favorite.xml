@@ -31,13 +31,16 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
         android:background="#d1d1d1">
 
         <ListView
             android:id="@+id/favListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         </ListView>
     </FrameLayout>
+
 
 </LinearLayout>

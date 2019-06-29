@@ -12,10 +12,13 @@ public class DBOperator extends SQLiteOpenHelper {
             "CATEGARY text," +
             "URL text," +
             "TIME text," +
+            "TITLE text," +
             "FLAG integer" + ")";
 
-    public DBOperator(Context context) {
-        super(context, "browserdatabase.db", null, 1);
+    public DBOperator(Context context, String name, SQLiteDatabase.CursorFactory cursorFactory,
+                      int version) {
+        //browserdatabase.db
+        super(context, name, null, 1);
     }
 
 

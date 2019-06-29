@@ -8,6 +8,7 @@ public class BookMark {
     private String url;
     private Date date;
     private int flag;
+    private String title;
 
     public int getId() {
         return id;
@@ -47,5 +48,13 @@ public class BookMark {
 
     public void setFlag(int flag) {
         this.flag = flag;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

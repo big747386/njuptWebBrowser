@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.app.entity.BookMark;
 import com.example.app.entity.History;
 
 import java.text.SimpleDateFormat;

@@ -122,6 +122,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     @Override
+    public void  onResume() {
+        super.onResume();
+        mWebView.onResume();
+    }
+    @Override
     protected void onPause() {
         super.onPause();
         mWebView.onPause();
@@ -221,8 +226,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
             }
         });
     }
-
-
 
 
 
@@ -335,15 +338,17 @@ public class MainActivity extends Activity implements View.OnClickListener{
     public void jumpToFav() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, FavoriteActivity.class);
-        startActivity(intent);
+        //收藏夹的返回码是1
+        startActivityForResult(intent, 1);
     }
 
     public void jumpToHis() {
         Intent intent = new Intent();
+        //历史纪录的返回码是2
         intent.setClass(MainActivity.this, HistoryActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 2);
     }
-
+    
     //插入收藏夹
     public void insertBookMark() {
         BookMark bookMark = new BookMark();

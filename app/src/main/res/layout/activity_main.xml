@@ -81,15 +81,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-           <!-- <RadioButton
-                android:id="@+id/radioButton"
-                android:layout_width="256dp"
-                android:layout_height="192dp"
-                android:layout_x="0dp"
-                android:layout_y="0dp"
-                android:text="RadioButton"
-                tools:layout_editor_absoluteX="309dp"
-                tools:layout_editor_absoluteY="168dp" />-->
         </WebView>
 
         <!-- 网页进度条 -->

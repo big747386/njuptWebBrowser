@@ -2,8 +2,10 @@ package com.example.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -31,8 +33,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.app.entity.BookMark;
+import com.example.app.entity.History;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,12 +51,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private WebSettings mwebSettings;
     private TextView  mtitle;
     private Context mContext;
-    private ImageView webIcon, goBack, goForward, navSet, goHome, btnStart, navTest,save;
+    private ImageView webIcon, goBack, goForward, navSet, goHome, btnStart, save;
     private InputMethodManager manager;
     private PopupWindow mPopWindow;
     private Switch noPicSwitch;
     /*private TextView  mMenuTv;*/
 
+    private DBOperator dbOperator;
+    private SQLiteDatabase sqLiteDatabase;
 
     private static final String HTTP = "http://";
     private static final String HTTPS = "https://";
@@ -62,6 +71,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 
         initView();
+        initDataBase();
         mContext = MainActivity.this;
         manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         //mToolbar = findViewById(R.id.activity_main_toolbar);
@@ -97,7 +107,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         mWebView.setWebChromeClient(new mWebChromeClient());
         mWebView.setWebViewClient(new mWebViewClient());
-
 
     }
 
@@ -154,7 +163,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         goForward = findViewById(R.id.goForward);
         navSet = findViewById(R.id.navSet);
         goHome = findViewById(R.id.goHome);
-        navTest = findViewById(R.id.test);
+        //navTest = findViewById(R.id.test);
         save = findViewById(R.id.save);
 
         noPicSwitch = findViewById(R.id.noPicButton);
@@ -165,7 +174,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         goForward.setOnClickListener(this);
         navSet.setOnClickListener(this);
         goHome.setOnClickListener(this);
-        navTest.setOnClickListener(this);
+        //navTest.setOnClickListener(this);
         save.setOnClickListener(this);
        /* noPicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -291,20 +300,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 mWebView.loadUrl(getResources().getString(R.string.home_url));
                 break;
 
-            //测试接口
-            case R.id.test:
-                jump();
-                break;
-
             //popWindow里的选项
             case R.id.history:{
-                Toast.makeText(this, "跳转到History", Toast.LENGTH_SHORT).show();
+                jumpToHis();
                 mPopWindow.dismiss();
             }
             break;
 
             case R.id.favourite:{
-                jump();
+                jumpToFav();
             }
             break;
 
@@ -316,8 +320,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 /*mwebSettings.setBlockNetworkImage(true); // 设置无图模式*/
             }
             break;
+
             case R.id.add_to_fav:{
                 Toast.makeText(this,"添加到收藏夹",Toast.LENGTH_SHORT).show();
+                insertBookMark();
+                break;
             }
 
             default:
@@ -325,10 +332,33 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     //跳转到收藏夹
-    public void jump() {
+    public void jumpToFav() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, FavoriteActivity.class);
         startActivity(intent);
+    }
+
+    public void jumpToHis() {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, HistoryActivity.class);
+        startActivity(intent);
+    }
+
+    //插入收藏夹
+    public void insertBookMark() {
+        BookMark bookMark = new BookMark();
+        bookMark.setTitle(mWebView.getTitle());
+        bookMark.setUrl(mWebView.getUrl());
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("URL",bookMark.getUrl());
+        contentValues.put("TITLE",bookMark.getTitle());
+        //SQLITE的类型需要与JAVA中的Date转换
+        Date currentTime = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = format.format(currentTime);
+        contentValues.put("TIME", dateString);
+        sqLiteDatabase.insert("Bookmark", null, contentValues);
     }
 
     private void showPopupWindow() {
@@ -363,6 +393,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
         Matcher mat = pat.matcher(urls.trim());
         isUrl = mat.matches();
         return isUrl;
+    }
+
+    public void addHistory(String title, String url) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TITLE",title);
+        contentValues.put("URL",url);
+        sqLiteDatabase.insert("History", null, contentValues);
     }
 
     private class mWebChromeClient extends WebChromeClient {
@@ -403,8 +440,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     private class mWebViewClient extends WebViewClient {
+        boolean if_load;
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if_load = false;
             // 设置在webView点击打开的新网页在当前界面显示,而不跳转到新的浏览器中
 
             if (url == null) {
@@ -441,6 +480,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
             // 切换默认网页图标
             webIcon.setImageResource(R.drawable.internet);
+
+            // 开始加载
+            if_load = true;
         }
 
         @Override
@@ -453,6 +495,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
             setTitle(mWebView.getTitle());
             // 显示页面标题
             textUrl.setText(mWebView.getTitle());
+
+            //防止重复加载
+            if (if_load) {
+                addHistory(mWebView.copyBackForwardList().getCurrentItem().getTitle(),
+                        mWebView.copyBackForwardList().getCurrentItem().getUrl());
+                if_load = false;
+            }
         }
 
         @Override
@@ -464,5 +513,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     break;
             }
         }
+    }
+
+    public void initDataBase() {
+        dbOperator = new DBOperator(this, "browserdatabase.db",
+                null, 1);
+
+        sqLiteDatabase = dbOperator.getWritableDatabase();
     }
 }

@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -25,7 +24,7 @@
             android:textColor="#2F4F4F"
             android:layout_marginTop="1dp"
             android:textSize="18dp"
-            android:text="收藏夹"/>
+            android:text="历史记录"/>
 
     </LinearLayout>
 
@@ -42,6 +41,4 @@
 
         </ListView>
     </FrameLayout>
-
-
 </LinearLayout>

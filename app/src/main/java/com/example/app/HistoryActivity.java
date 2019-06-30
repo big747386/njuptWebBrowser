@@ -7,18 +7,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 
-import java.text.SimpleDateFormat;
 import com.example.app.entity.BookMark;
+import com.example.app.entity.History;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class FavoriteActivity extends Activity implements View.OnClickListener{
+public class HistoryActivity extends Activity implements View.OnClickListener {
+    private static final String HISTORY_DB_NAME = "History";
 
-    private static final String BOOK_DB_NAME = "Bookmark";
     private static final int VERSION = 1;
 
     private DBOperator dbOperator;
@@ -27,47 +27,38 @@ public class FavoriteActivity extends Activity implements View.OnClickListener{
     private ListView listView;
     ArrayList<String> listItem = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
+        setContentView(R.layout.activity_history);
         dbOperator = new DBOperator(this, "browserdatabase.db",
                 null, VERSION);
         sqLiteDatabase = dbOperator.getWritableDatabase();
 
         //视图初始化
         initView();
-
     }
 
     private void initView() {
         listView = findViewById(R.id.favListView);
 
-        /**
-         * 测试接口BookMark bookMark = new BookMark();
-        bookMark.setTitle("sad");
-        bookMark.setUrl("sad");
-        bookMark.setCategary("adasd");
-        bookMark.setDate(new Date());
-        bookMark.setId(5);
-        bookMark.setFlag(1);
-        insert(bookMark);*/
         queryInfo();
     }
 
     //查询
     public void queryInfo() {
         listItem = new ArrayList<>();
-        BookMark bookMark = new BookMark();
-        Cursor cursor = sqLiteDatabase.query(BOOK_DB_NAME, null,null,
+        History history = new History();
+        Cursor cursor = sqLiteDatabase.query(HISTORY_DB_NAME, null,null,
                 null, null, null, "ID desc", null);
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
-                bookMark.setId(cursor.getInt(0));
-                bookMark.setUrl(cursor.getString(2));
-                bookMark.setTitle(cursor.getString(4));
-                listItem.add(bookMark.getTitle());
+                history.setId(cursor.getInt(0));
+                history.setUrl(cursor.getString(2));
+                //history.setTitle("dingweiwenti");
+                history.setTitle(cursor.getString(3));
+                //listItem.add("没拿到Title嘛？");
+                listItem.add(history.getTitle());
             }
             try {
                 ArrayAdapter arrayAdapter = new ArrayAdapter(this,
@@ -77,14 +68,26 @@ public class FavoriteActivity extends Activity implements View.OnClickListener{
                 e.printStackTrace();
             }
         } else {
-            listItem.add("暂时没有收藏网页呢，嘤嘤嘤");
+            listItem.add("还没有历史记录呢，快去网上冲浪吧");
             ArrayAdapter arrayAdapter = new ArrayAdapter(this,
-                    android.R.layout.simple_list_item_1, listItem);
+                    R.layout.array_adapter, listItem);
             listView.setAdapter(arrayAdapter);
         }
 
         cursor.close();
         sqLiteDatabase.close();
+    }
+
+    public void insert(History history) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("URL",history.getUrl());
+        contentValues.put("TITLE",history.getTitle());
+        //SQLITE的类型需要与JAVA中的Date转换
+        Date currentTime = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = format.format(currentTime);
+        contentValues.put("TIME", dateString);
+        sqLiteDatabase.insert(HISTORY_DB_NAME, null, contentValues);
     }
 
     @Override

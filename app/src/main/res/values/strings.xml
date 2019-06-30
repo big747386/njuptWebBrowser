@@ -7,7 +7,7 @@
     <string name="nav_right">前进</string>
     <string name="nav_left">后退</string>
     <string name="nav_set">设置</string>
-    <string name="nav_page">窗口</string>
+    <string name="nav_save">保存</string>
     <string name="nav_home">主页</string>
 
     <string name="input_url">搜索或输入网址</string>

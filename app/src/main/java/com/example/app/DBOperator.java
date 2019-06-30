@@ -15,6 +15,14 @@ public class DBOperator extends SQLiteOpenHelper {
             "TITLE text," +
             "FLAG integer" + ")";
 
+    private static String CREATE_HISTORY =
+            "create table History( " +
+                    "ID integer primary key autoincrement," +
+                    "URL text," +
+                    "TIME text," +
+                    "TITLE text," +
+                    "FLAG integer" + ")";
+
     public DBOperator(Context context, String name, SQLiteDatabase.CursorFactory cursorFactory,
                       int version) {
         //browserdatabase.db
@@ -25,6 +33,7 @@ public class DBOperator extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_BOOKMARK);
+        db.execSQL(CREATE_HISTORY);
     }
 
     @Override

@@ -122,27 +122,14 @@
 
         </RelativeLayout>
 
-        <!-- 窗口按钮 -->
-        <RelativeLayout style="@style/NavItem">
-
-
-            <ImageView
-                android:id="@+id/test"
-                style="@style/NavIcon"
-                android:contentDescription="@string/nav_page"
-                android:src="@drawable/nav_home" />
-
-        </RelativeLayout>
-
         <!-- 保存按钮 -->
         <RelativeLayout style="@style/NavItem">
-
 
             <ImageView
                 android:id="@+id/save"
                 style="@style/NavIcon"
-                android:contentDescription="@string/nav_page"
-                android:src="@drawable/nav_home" />
+                android:contentDescription="@string/nav_save"
+                android:src="@drawable/nav_save" />
 
         </RelativeLayout>
 

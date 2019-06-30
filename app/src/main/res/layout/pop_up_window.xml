@@ -1,89 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#66000000">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/liner_layout_style"
-    android:orientation="vertical"
-    android:paddingBottom="2dp">
-
-    <Switch
-        android:id="@+id/noPicButton"
-        android:layout_width="wrap_content"
-        android:layout_height="15dp"
-        android:showText="true"
-        android:textOff="@string/nopicoff"
-        android:textOn="@string/nopicon"
-        android:thumb="@drawable/switch_custom_thumb_selector"
-        android:track="@drawable/switch_custom_track_selector" />
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
-    <Switch
-        android:id="@+id/fullScreenButton"
-        android:layout_width="wrap_content"
-        android:layout_height="15dp"
-        android:showText="true"
-        android:textOff="@string/fullscreenoff"
-        android:textOn="@string/fullscrennon"
-        android:thumb="@drawable/switch_custom_thumb_selector"
-        android:track="@drawable/switch_custom_track_selector" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
-    <TextView
-        android:id="@+id/add_to_fav"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:text="@string/add_to_fav"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp" />
+        android:background="@drawable/liner_layout_style"
+        android:orientation="vertical"
+        android:paddingBottom="2dp">
 
-    <TextView
-        android:id="@+id/history"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:text="@string/his"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp" />
+        <TextView
+            android:id="@+id/landscape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/landscape"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
 
-    <TextView
-        android:id="@+id/favourite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:text="@string/fav"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
 
-    <TextView
-        android:id="@+id/pop_exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pop_exit"
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp"/>
+        <TextView
+            android:id="@+id/vertical_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/vertical"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/add_to_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/add_to_fav"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
+
+        <TextView
+            android:id="@+id/history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/his"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
+
+        <TextView
+            android:id="@+id/favourite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/fav"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
+
+        <TextView
+            android:id="@+id/pop_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/pop_exit"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+    </LinearLayout>
 </RelativeLayout>

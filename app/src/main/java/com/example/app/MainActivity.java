@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -13,7 +14,6 @@ import android.os.Bundle;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,9 +24,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -43,6 +43,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.webkit.URLUtil.isHttpUrl;
+
 public class MainActivity extends Activity implements View.OnClickListener{
 
     private WebView mWebView;
@@ -51,14 +53,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private WebSettings mwebSettings;
     private TextView  mtitle;
     private Context mContext;
-    private ImageView webIcon, goBack, goForward, navSet, goHome, btnStart, save;
-    private InputMethodManager manager;
-    private PopupWindow mPopWindow;
-    private Switch noPicSwitch;
     /*private TextView  mMenuTv;*/
 
     private DBOperator dbOperator;
     private SQLiteDatabase sqLiteDatabase;
+    private ImageView webIcon, goBack, goForward, navSet, goHome, btnStart, navTest,save,full_screen_exit;
+    private InputMethodManager manager;
+    private PopupWindow mPopWindow;
+    private LinearLayout footer,header;
 
     private static final String HTTP = "http://";
     private static final String HTTPS = "https://";
@@ -176,10 +178,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
         goForward = findViewById(R.id.goForward);
         navSet = findViewById(R.id.navSet);
         goHome = findViewById(R.id.goHome);
-        //navTest = findViewById(R.id.test);
-        save = findViewById(R.id.save);
 
-        noPicSwitch = findViewById(R.id.noPicButton);
+        navTest = findViewById(R.id.full_screen);
+
+        save = findViewById(R.id.save);
+        header = findViewById(R.id.urlWindow);
+        footer = findViewById(R.id.nevbar);
+
+        full_screen_exit = findViewById(R.id.full_screen_exit);
 
         // 绑定按钮点击事件
         btnStart.setOnClickListener(this);
@@ -187,16 +193,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
         goForward.setOnClickListener(this);
         navSet.setOnClickListener(this);
         goHome.setOnClickListener(this);
-        //navTest.setOnClickListener(this);
+        navTest.setOnClickListener(this);
         save.setOnClickListener(this);
-       /* noPicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        /*noPicSwitch.setOnClickListener(this);*/
 
-            }
-        });*/
+        full_screen_exit.setOnClickListener(this);
 
-
+        full_screen_exit.getBackground().setAlpha(0);
+        full_screen_exit.setVisibility(View.INVISIBLE);
         // 地址输入栏获取与失去焦点处理
         textUrl.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -234,8 +238,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
             }
         });
     }
-
-
 
     @Override
     public void onClick(View v) {
@@ -311,6 +313,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 mWebView.loadUrl(getResources().getString(R.string.home_url));
                 break;
 
+            //测试接口
+            case R.id.full_screen:
+                footer.setVisibility(View.GONE);
+                header.setVisibility(View.GONE);
+                full_screen_exit.setVisibility(View.VISIBLE);
+                break;
+
             //popWindow里的选项
             case R.id.history:{
                 jumpToHis();
@@ -320,15 +329,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
             case R.id.favourite:{
                 jumpToFav();
+                mPopWindow.dismiss();
             }
             break;
 
             case R.id.pop_exit:{
                 Toast.makeText(this,"退出设置菜单",Toast.LENGTH_SHORT).show();
-
-                mwebSettings.setUseWideViewPort(true);
-                mwebSettings.setLoadWithOverviewMode(true);
-                /*mwebSettings.setBlockNetworkImage(true); // 设置无图模式*/
+                mPopWindow.dismiss();
             }
             break;
 
@@ -337,6 +344,25 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 insertBookMark();
                 break;
             }
+
+            case R.id.full_screen_exit:{
+                full_screen_exit.bringToFront();
+                footer.setVisibility(View.VISIBLE);
+                header.setVisibility(View.VISIBLE);
+                full_screen_exit.setVisibility(View.INVISIBLE);
+            }
+                break;
+
+            case R.id.landscape:{
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//设定为横屏
+            }
+            break;
+
+            case R.id.vertical_screen:{
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设定为竖屏
+            }
+            break;
+
 
             default:
         }
@@ -416,11 +442,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
         TextView favourite = contentView.findViewById(R.id.favourite);
         TextView exitPop = contentView.findViewById(R.id.pop_exit);
         TextView add_to_fav = contentView.findViewById(R.id.add_to_fav);
+        TextView landscape = contentView.findViewById(R.id.landscape);
+        TextView vertical_screen = contentView.findViewById(R.id.vertical_screen);
 
         history.setOnClickListener(this);
         favourite.setOnClickListener(this);
         add_to_fav.setOnClickListener(this);
         exitPop.setOnClickListener(this);
+        landscape.setOnClickListener(this);
+        vertical_screen.setOnClickListener(this);
 
         mPopWindow.showAsDropDown(navSet,-200,-500);
     }

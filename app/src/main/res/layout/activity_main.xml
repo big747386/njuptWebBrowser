@@ -11,47 +11,49 @@
 
     <!--顶部地址栏-->
     <LinearLayout
+        android:id="@+id/urlWindow"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
-        android:orientation="horizontal"
-        android:background="@drawable/top_bar_bg">
+        android:background="@drawable/top_bar_bg"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/webIcon"
             android:layout_width="@dimen/top_bar_height"
             android:layout_height="@dimen/top_bar_height"
-            android:contentDescription="favicon"
+            android:background="#01000000"
+            android:contentDescription="@string/favicon"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:padding="11dp"
-            android:src="@drawable/internet"
-            android:background="#01000000"/>
+            android:src="@drawable/internet" />
 
         <EditText
             android:id="@+id/textUrl"
             android:layout_width="0dp"
             android:layout_height="34dp"
-            android:layout_weight="1"
             android:layout_marginTop="3dp"
+            android:layout_weight="1"
             android:background="#01000000"
             android:hint="@string/input_url"
             android:imeOptions="actionGo"
             android:inputType="textUri"
             android:maxLines="1"
-            android:textSize="15sp"
             android:textColor="#606060"
-            android:textColorHint="#9f9f9f"/>
+            android:textColorHint="#9f9f9f"
+            android:textSize="15sp"
+            android:autofillHints="" />
 
         <ImageView
             android:id="@+id/btnStart"
             android:layout_width="@dimen/top_bar_height"
             android:layout_height="@dimen/top_bar_height"
-            android:contentDescription="refresh"
-            android:padding="11dp"
-            android:layout_marginRight="2dp"
             android:layout_marginEnd="2dp"
-            android:src="@drawable/refresh"
-            android:background="#01000000"/>
+            android:layout_marginRight="2dp"
+            android:background="#01000000"
+            android:contentDescription="@string/refresh"
+            android:padding="11dp"
+            android:src="@drawable/refresh" />
 
     </LinearLayout>
 
@@ -64,10 +66,31 @@
         android:layout_marginBottom="1dp"
         android:background="#d1d1d1">
 
+        <ImageView
+            android:id="@+id/full_screen_exit"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="150dp"
+            android:layout_gravity="end"
+            android:contentDescription="@string/full_screen_exit"
+            android:src="@drawable/full_screen_exit" />
+
         <WebView
             android:id="@+id/activity_main_webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+           <!-- <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="256dp"
+                android:layout_height="192dp"
+                android:layout_x="0dp"
+                android:layout_y="0dp"
+                android:text="RadioButton"
+                tools:layout_editor_absoluteX="309dp"
+                tools:layout_editor_absoluteY="168dp" />-->
+        </WebView>
 
         <!-- 网页进度条 -->
         <ProgressBar
@@ -78,7 +101,7 @@
             android:max="100"
             android:progress="50"
             android:progressDrawable="@drawable/progress_style"
-            android:outlineAmbientShadowColor="#00FFFF"/>
+            android:outlineAmbientShadowColor="#00FFFF" tools:targetApi="p"/>
     </FrameLayout>
 
     <!-- 底部导航栏 -->
@@ -122,6 +145,18 @@
 
         </RelativeLayout>
 
+        <!-- 窗口按钮 -->
+        <RelativeLayout style="@style/NavItem">
+
+
+            <ImageView
+                android:id="@+id/full_screen"
+                style="@style/NavIcon"
+                android:contentDescription="@string/full_screen"
+                android:src="@drawable/full_screen" />
+
+        </RelativeLayout>
+
         <!-- 保存按钮 -->
         <RelativeLayout style="@style/NavItem">
 
@@ -130,6 +165,8 @@
                 style="@style/NavIcon"
                 android:contentDescription="@string/nav_save"
                 android:src="@drawable/nav_save" />
+                android:contentDescription="@string/save"
+                android:src="@drawable/save" />
 
         </RelativeLayout>
 

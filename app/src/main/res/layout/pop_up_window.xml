@@ -90,7 +90,7 @@
             android:topLeftRadius="10dp"
             android:topRightRadius="10dp" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/pop_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             android:text="@string/pop_exit"
             android:topLeftRadius="10dp"
             android:topRightRadius="10dp" />
-
+-->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp" />

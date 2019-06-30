@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class HistoryActivity extends Activity implements View.OnClickListener {
     private ListView listView;
     ArrayList<String> listItem = new ArrayList<>();
     private HashMap<Integer,String> urlList;
+    private ImageView webIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class HistoryActivity extends Activity implements View.OnClickListener {
 
     private void initView() {
         listView = findViewById(R.id.favListView);
+        webIcon = findViewById(R.id.webIcon);
 
         queryInfo();
 
@@ -54,12 +57,18 @@ public class HistoryActivity extends Activity implements View.OnClickListener {
                 jumpBack(position);
             }
         });
+
+        webIcon.setOnClickListener(this);
     }
 
     public void jumpBack(int position) {
         Intent intent = new Intent();
         intent.putExtra("data", urlList.get(position));
         setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    public void jumpBackWithout() {
         finish();
     }
     //查询
@@ -114,7 +123,8 @@ public class HistoryActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.webIcon:
+                jumpBackWithout();
         }
     }
 }

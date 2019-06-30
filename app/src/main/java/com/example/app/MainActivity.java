@@ -103,7 +103,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
 
         // REMOTE RESOURCE
-        mWebView.loadUrl("http://www.oneplusbbs.com/?adid=qqbrowser_103\n");
+        mWebView.loadUrl(getString(R.string.home_url));
 
         // LOCAL RESOURCE
 
@@ -333,11 +333,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
             }
             break;
 
-            case R.id.pop_exit:{
-                Toast.makeText(this,"退出设置菜单",Toast.LENGTH_SHORT).show();
-                mPopWindow.dismiss();
-            }
-            break;
+//            case R.id.pop_exit:{
+//                Toast.makeText(this,"退出设置菜单",Toast.LENGTH_SHORT).show();
+//                mPopWindow.dismiss();
+//            }
+//            break;
 
             case R.id.add_to_fav:{
                 Toast.makeText(this,"添加到收藏夹",Toast.LENGTH_SHORT).show();
@@ -364,11 +364,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
             break;
 
             case R.id.no_pic:{
+                Toast.makeText(mContext, "进入无图模式", Toast.LENGTH_SHORT).show();
                 mwebSettings.setBlockNetworkImage(true); // 进入无图模式
             }
             break;
 
             case R.id.no_pic_off:{
+                Toast.makeText(mContext, "退出无图模式", Toast.LENGTH_SHORT).show();
                 mwebSettings.setBlockNetworkImage(false); // 退出无图模式
             }
             break;
@@ -450,7 +452,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         TextView history = contentView.findViewById(R.id.history);
         TextView favourite = contentView.findViewById(R.id.favourite);
-        TextView exitPop = contentView.findViewById(R.id.pop_exit);
+        //TextView exitPop = contentView.findViewById(R.id.pop_exit);
         TextView add_to_fav = contentView.findViewById(R.id.add_to_fav);
         TextView landscape = contentView.findViewById(R.id.landscape);
         TextView vertical_screen = contentView.findViewById(R.id.vertical_screen);
@@ -460,7 +462,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         history.setOnClickListener(this);
         favourite.setOnClickListener(this);
         add_to_fav.setOnClickListener(this);
-        exitPop.setOnClickListener(this);
+        //exitPop.setOnClickListener(this);
         landscape.setOnClickListener(this);
         vertical_screen.setOnClickListener(this);
         no_pic.setOnClickListener(this);

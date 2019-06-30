@@ -30,6 +30,7 @@ public class FavoriteActivity extends Activity implements View.OnClickListener{
     private ListView listView;
     ArrayList<String> listItem = new ArrayList<>();
     private HashMap<Integer,String> urlList;
+    private ImageView imageView;
 
 
     @Override
@@ -48,6 +49,7 @@ public class FavoriteActivity extends Activity implements View.OnClickListener{
     private void initView() {
         listView = findViewById(R.id.favListView);
 
+        imageView = findViewById(R.id.webIcon2);
         /**
          * 测试接口BookMark bookMark = new BookMark();
         bookMark.setTitle("sad");
@@ -59,6 +61,7 @@ public class FavoriteActivity extends Activity implements View.OnClickListener{
         insert(bookMark);*/
         queryInfo();
 
+        imageView.setOnClickListener(this);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,10 +112,18 @@ public class FavoriteActivity extends Activity implements View.OnClickListener{
         sqLiteDatabase.close();
     }
 
+    public void jumpBackWithout() {
+        finish();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.webIcon2:
+                jumpBackWithout();
+                break;
 
+            default:
         }
     }
 }

@@ -63,6 +63,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private static final String HTTP = "http://";
     private static final String HTTPS = "https://";
 
+    private int flag = 0;
+    private String flagUrl;
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,10 +125,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     @Override
-    public void  onResume() {
+    public void onResume() {
         super.onResume();
         mWebView.onResume();
+        if (flag == 1) {
+            mWebView.loadUrl(flagUrl);
+            flag = 0;
+        }
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -348,7 +356,37 @@ public class MainActivity extends Activity implements View.OnClickListener{
         intent.setClass(MainActivity.this, HistoryActivity.class);
         startActivityForResult(intent, 2);
     }
-    
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    //data = getIntent();
+                    String dataUrl = data.getStringExtra("data");
+                    flag = 1;
+                    flagUrl = dataUrl;
+                    Toast.makeText(mContext, dataUrl + "##" +flag, Toast.LENGTH_SHORT).show();
+                    //mWebView.loadUrl(dataUrl);
+                }
+                break;
+
+            case 2:
+                if (resultCode == RESULT_OK) {
+                    //data = getIntent();
+                    String dataUrl = data.getStringExtra("data");
+                    int i = 0;
+                    flag = 1;
+                    flagUrl = dataUrl;
+                    //Toast.makeText(mContext, dataUrl, Toast.LENGTH_SHORT).show();
+                    //mWebView.loadUrl(dataUrl);
+                }
+                break;
+
+            default:
+        }
+    }
+
     //插入收藏夹
     public void insertBookMark() {
         BookMark bookMark = new BookMark();

@@ -36,6 +36,26 @@
             android:topLeftRadius="10dp"
             android:topRightRadius="10dp" />
 
+        <TextView
+            android:id="@+id/no_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/no_pic"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
+
+        <TextView
+            android:id="@+id/no_pic_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/no_pic_off"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp" />

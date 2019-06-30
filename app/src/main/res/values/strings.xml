@@ -9,11 +9,7 @@
     <string name="nav_set">设置</string>
     <string name="nav_save">保存</string>
     <string name="nav_home">主页</string>
-
     <string name="input_url">搜索或输入网址</string>
-    <string name="computer">计算机</string>
-    <string name="finaicial">金融</string>
-    <string name="manage">管理</string>
     <string name="fullscreenoff">全屏模式OFF</string>
     <string name="fullscrennon">全屏模式ON</string>
     <string name="nopicoff">无图模式OFF</string>
@@ -30,4 +26,6 @@
     <string name="landscape">仅限横屏浏览</string>
     <string name="vertical_screen">仅限竖浏览</string>
     <string name="vertical">仅限竖屏浏览</string>
+    <string name="no_pic">进入无图模式</string>
+    <string name="no_pic_off">退出无图模式</string>
 </resources>

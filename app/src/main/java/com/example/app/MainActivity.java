@@ -363,6 +363,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
             }
             break;
 
+            case R.id.no_pic:{
+                mwebSettings.setBlockNetworkImage(true); // 进入无图模式
+            }
+            break;
+
+            case R.id.no_pic_off:{
+                mwebSettings.setBlockNetworkImage(false); // 退出无图模式
+            }
+            break;
+
 
             default:
         }
@@ -444,6 +454,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
         TextView add_to_fav = contentView.findViewById(R.id.add_to_fav);
         TextView landscape = contentView.findViewById(R.id.landscape);
         TextView vertical_screen = contentView.findViewById(R.id.vertical_screen);
+        TextView no_pic= contentView.findViewById(R.id.no_pic);
+        TextView no_pic_off = contentView.findViewById(R.id.no_pic_off);
 
         history.setOnClickListener(this);
         favourite.setOnClickListener(this);
@@ -451,6 +463,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
         exitPop.setOnClickListener(this);
         landscape.setOnClickListener(this);
         vertical_screen.setOnClickListener(this);
+        no_pic.setOnClickListener(this);
+        no_pic_off.setOnClickListener(this);
 
         mPopWindow.showAsDropDown(navSet,-200,-500);
     }
